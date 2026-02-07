@@ -1,0 +1,11 @@
+id,email,first_name,last_name,username,is_active,date_joined
+e0e2c88b-2d81-4999-92b9-6fb213680985,contact@example.com,Chase,Admin,Chase_Construction,True,2025-09-13T17:49:08.464688
+018a70d8-f802-4d2a-aeb9-a1f18e8f286b,omaha@example.com,Omaha,Admin,Omaha_Builders,True,2025-05-22T17:49:08.464700
+3430cfe1-5355-4705-a094-37bd829766c5,metro@example.com,Metro,Admin,Metro_Renovations,True,2025-08-08T17:49:08.464704
+3903dd17-54e0-4fec-a9df-dc6bfb3515d5,apex@example.com,Apex,Admin,Apex_Site_Services,True,2025-09-13T17:49:08.464706
+690c7a08-ced7-4fc7-8942-cb203beff717,residential@example.com,Residential,Admin,Residential_Fixer,True,2025-08-20T17:49:08.464707
+9272c59d-52ef-40f4-9636-80bd15d3d481,bigred@example.com,Big,Admin,Big_Red_Contracting,True,2025-02-23T17:49:08.464709
+0cff729c-f791-4164-8bfe-0599bb689aaa,midwest@example.com,Midwest,Admin,Midwest_Demolition,True,2025-03-10T17:49:08.464711
+99834ea5-20d3-40ba-8a27-d5b6a02d19a1,lincoln@example.com,Lincoln,Admin,Lincoln_Lofts,True,2025-06-14T17:49:08.464716
+d7985ea2-dd23-4c52-ab22-7cb643f8591e,prairie@example.com,Prairie,Admin,Prairie_Home_Services,True,2025-03-04T17:49:08.464721
+3f7863d1-9bc3-456e-813c-6412f6633eb5,riverfront@example.com,Riverfront,Admin,Riverfront_Development,True,2025-01-16T17:49:08.464723
