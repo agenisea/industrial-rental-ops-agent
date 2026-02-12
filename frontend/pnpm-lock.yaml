@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@agenisea/sse-kit':
-        specifier: ^0.1.2
-        version: 0.1.2(react@19.2.4)
+        specifier: ^0.2.0
+        version: 0.2.0(react@19.2.4)
       '@radix-ui/react-slot':
         specifier: ^1.2.4
         version: 1.2.4(@types/react@19.2.13)(react@19.2.4)
@@ -57,8 +57,8 @@ importers:
 
 packages:
 
-  '@agenisea/sse-kit@0.1.2':
-    resolution: {integrity: sha512-3MyRqfAE5980jKOLn8f3jl4hW0a7bJ2X5P7DqQd176tMilYB2I3N0Ds6ACxhyIuveS7N8dJUVDB93lha2Mu93g==}
+  '@agenisea/sse-kit@0.2.0':
+    resolution: {integrity: sha512-Y/Y2o0fW4w0gVxJzD0nnwOl5dNJgimfTaTJepwvdezKJ2KmD8i5Rxk7LnMsDNnYKQBaIl4cMfLYBltOR7WgDJw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: '>=17.0.0'
@@ -880,7 +880,7 @@ packages:
 
 snapshots:
 
-  '@agenisea/sse-kit@0.1.2(react@19.2.4)':
+  '@agenisea/sse-kit@0.2.0(react@19.2.4)':
     optionalDependencies:
       react: 19.2.4
 

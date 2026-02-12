@@ -4,7 +4,7 @@ import type {
   ChatMessage,
   ChatRequest,
   ChatResponseEnvelope,
-  StreamPhase,
+  StreamEvent,
   StreamUpdate,
 } from "@/types/api";
 
@@ -19,24 +19,20 @@ export function useChat() {
     ChatRequest,
     ChatResponseEnvelope,
     StreamUpdate,
-    StreamPhase
+    StreamEvent
   >({
     endpoint: "/api/chat",
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    initialPhase: "idle",
-    completePhase: "complete",
-    errorPhase: "error",
-    extractResult: (update) => update.result,
-    extractError: (update) => update.error,
-    isComplete: (update) => update.phase === "complete",
-    isError: (update) => update.phase === "error",
-    onUpdate: (update) => {
+    initialEvent: "idle",
+    completeEvent: "complete",
+    errorEvent: "error",
+    onUpdate: (_event, data) => {
       const id = assistantIdRef.current;
-      if (update.phase === "thinking" || update.phase === "tool_call") {
+      if (_event === "thinking" || _event === "tool_call") {
         setMessages((prev) =>
           prev.map((m) =>
-            m.id === id ? { ...m, statusText: update.message } : m
+            m.id === id ? { ...m, statusText: data.message } : m
           )
         );
       }

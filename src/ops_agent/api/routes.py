@@ -52,17 +52,14 @@ def _tool_status_message(
 def _sse_event(
     phase: str,
     message: str | None = None,
-    result: dict[str, Any] | None = None,
     error: str | None = None,
 ) -> dict[str, str]:
-    payload: dict[str, Any] = {"phase": phase}
+    payload: dict[str, Any] = {}
     if message is not None:
         payload["message"] = message
-    if result is not None:
-        payload["result"] = result
     if error is not None:
         payload["error"] = error
-    return {"data": json.dumps(payload)}
+    return {"event": phase, "data": json.dumps(payload)}
 
 
 @router.post("/chat")
@@ -135,10 +132,10 @@ async def chat(body: ChatRequest, request: Request) -> EventSourceResponse:
                 model=model_name,
             )
 
-            yield _sse_event(
-                "complete",
-                result=json.loads(envelope.model_dump_json()),
-            )
+            yield {
+                "event": "complete",
+                "data": envelope.model_dump_json(),
+            }
 
         except Exception as e:
             agent_logger.log_error(
@@ -146,19 +143,9 @@ async def chat(body: ChatRequest, request: Request) -> EventSourceResponse:
                 tool_name="chat",
                 error=str(e),
             )
-            error_envelope = ChatResponseEnvelope(
-                data=AgentResponse(
-                    message="Something went wrong. Please try again."
-                ),
-                request_id=request_id,
-                model="error",
-            )
             yield _sse_event(
                 "error",
                 error=str(e),
-                result=json.loads(
-                    error_envelope.model_dump_json()
-                ),
             )
         finally:
             session.close()

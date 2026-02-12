@@ -55,7 +55,7 @@ export interface ChatMessage {
   sentiment?: SentimentInfo;
 }
 
-export type StreamPhase =
+export type StreamEvent =
   | "idle"
   | "thinking"
   | "tool_call"
@@ -63,8 +63,5 @@ export type StreamPhase =
   | "error";
 
 export interface StreamUpdate {
-  phase: StreamPhase;
   message?: string;
-  result?: ChatResponseEnvelope;
-  error?: string;
 }

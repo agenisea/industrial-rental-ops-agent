@@ -41,9 +41,9 @@ The agent uses **pydantic-ai** with tool calling — CSV data is loaded into SQL
 Responses stream via **Server-Sent Events** so the user sees real-time progress:
 
 ```
-phase: thinking   → "Processing your request..."
-phase: tool_call  → "Looking up order ORD-5353..."
-phase: complete   → final validated response (Pydantic AgentResponse)
+event: thinking   → data: {"message": "Processing your request..."}
+event: tool_call  → data: {"message": "Looking up order ORD-5353..."}
+event: complete   → data: {ChatResponseEnvelope}
 ```
 
 ## Architecture
