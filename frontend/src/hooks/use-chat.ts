@@ -3,7 +3,7 @@ import { useSSEStream } from "@agenisea/sse-kit/client";
 import type {
   ChatMessage,
   ChatRequest,
-  ChatResponseEnvelope,
+  ChatResponse,
   StreamEvent,
   StreamUpdate,
 } from "@/types/api";
@@ -17,7 +17,7 @@ export function useChat() {
 
   const { state, start } = useSSEStream<
     ChatRequest,
-    ChatResponseEnvelope,
+    ChatResponse,
     StreamUpdate,
     StreamEvent
   >({
@@ -37,9 +37,9 @@ export function useChat() {
         );
       }
     },
-    onComplete: (envelope) => {
+    onComplete: (response) => {
       const id = assistantIdRef.current;
-      const { message, orders, order_summaries, sentiment } = envelope.data;
+      const { message, orders, order_summaries, sentiment } = response;
       setMessages((prev) =>
         prev.map((m) =>
           m.id === id

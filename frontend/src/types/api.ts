@@ -2,7 +2,7 @@ export interface ChatRequest {
   message: string;
 }
 
-export interface AgentResponse {
+export interface ChatResponse {
   message: string;
   orders?: OrderInfo[] | null;
   order_summaries?: OrderSummaryInfo[] | null;
@@ -36,12 +36,6 @@ export interface SentimentInfo {
   neutral: number;
   negative: number;
   flagged_messages: string[];
-}
-
-export interface ChatResponseEnvelope {
-  data: AgentResponse;
-  request_id: string;
-  model: string;
 }
 
 export interface ChatMessage {

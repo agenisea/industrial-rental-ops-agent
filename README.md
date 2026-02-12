@@ -43,25 +43,25 @@ Responses stream via **Server-Sent Events** so the user sees real-time progress:
 ```
 event: thinking   → data: {"message": "Processing your request..."}
 event: tool_call  → data: {"message": "Looking up order ORD-5353..."}
-event: complete   → data: {ChatResponseEnvelope}
+event: complete   → data: {"message": "...", "orders": [...], ...}
 ```
 
 ## Architecture
 
 ```
-Browser → POST /api/chat → FastAPI (SSE) → pydantic-ai agent.iter()
-                                                │
-                                         LLM selects tool(s)
-                                                │
-                                         ┌──────┴──────┐
-                                         │  Tool Fns   │
-                                         │  (SQLite)   │
-                                         └──────┬──────┘
-                                                │
-                                         AgentResponse
-                                         (Pydantic-validated)
-                                                │
-Browser ← SSE: thinking/tool_call/complete ← FastAPI
+Browser → ChatRequest → POST /api/chat → FastAPI (SSE) → pydantic-ai agent.iter()
+                                                              │
+                                                       LLM selects tool(s)
+                                                              │
+                                                       ┌──────┴──────┐
+                                                       │  Tool Fns   │
+                                                       │  (SQLite)   │
+                                                       └──────┬──────┘
+                                                              │
+                                                       ChatResponse
+                                                       (Pydantic-validated)
+                                                              │
+Browser ← SSE: thinking/tool_call/complete ←────────── FastAPI
 ```
 
 ## Data Model

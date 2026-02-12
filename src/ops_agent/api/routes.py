@@ -12,7 +12,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from ops_agent.agent.deps import AgentDeps
 from ops_agent.agent.schemas import AgentResponse
-from ops_agent.api.schemas import ChatRequest, ChatResponseEnvelope
+from ops_agent.api.schemas import ChatRequest, ChatResponse
 from ops_agent.logger import AgentLogger
 from ops_agent.repositories.message_repo import SqlMessageRepository
 from ops_agent.repositories.order_repo import SqlOrderRepository
@@ -126,15 +126,16 @@ async def chat(body: ChatRequest, request: Request) -> EventSourceResponse:
                 duration_ms=duration_ms,
             )
 
-            envelope = ChatResponseEnvelope(
-                data=output,
-                request_id=request_id,
-                model=model_name,
+            response = ChatResponse(
+                message=output.message,
+                orders=output.orders,
+                order_summaries=output.order_summaries,
+                sentiment=output.sentiment,
             )
 
             yield {
                 "event": "complete",
-                "data": envelope.model_dump_json(),
+                "data": response.model_dump_json(),
             }
 
         except Exception as e:
@@ -145,7 +146,7 @@ async def chat(body: ChatRequest, request: Request) -> EventSourceResponse:
             )
             yield _sse_event(
                 "error",
-                error=str(e),
+                error="Something went wrong. Please try again.",
             )
         finally:
             session.close()
