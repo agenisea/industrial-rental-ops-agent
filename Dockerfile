@@ -15,18 +15,19 @@ WORKDIR /app
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Install Python dependencies
-COPY pyproject.toml uv.lock ./
+COPY backend/pyproject.toml backend/uv.lock ./
 RUN uv sync --frozen --no-dev
 
 # Copy application code
-COPY src/ ./src/
-COPY data/ ./data/
+COPY backend/src/ ./src/
+COPY backend/data/ ./data/
 
 # Copy built frontend
 COPY --from=frontend-build /app/frontend/dist ./static/
 
-# Create logs directory
-RUN mkdir -p logs
+# Create non-root user with home directory for uv cache
+RUN useradd -r -m -s /usr/sbin/nologin app && mkdir -p logs && chown -R app:app /app
+USER app
 
 EXPOSE 8000
 CMD ["uv", "run", "uvicorn", "ops_agent.main:app", "--host", "0.0.0.0", "--port", "8000"]
