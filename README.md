@@ -92,43 +92,43 @@ User (10)              Order (20)                Product (3)
 ## Local Development
 
 ```bash
-# Backend
-uv sync
+# Backend (run from backend/)
+cd backend && uv sync
 export ANTHROPIC_API_KEY=sk-ant-...
-uv run uvicorn ops_agent.main:app --reload
+cd backend && uv run uvicorn ops_agent.main:app --reload
 
 # Frontend (separate terminal)
 cd frontend && pnpm install && pnpm dev
 # Dev server proxies /api → localhost:8000
 
-# Tests
-uv run --extra dev pytest tests/ -v
-uv run --extra dev ruff check src/ tests/ evals/
+# Tests (run from backend/)
+cd backend && uv run --extra dev pytest tests/ -v
+cd backend && uv run --extra dev ruff check src/ tests/ evals/
 
-# Evals (pydantic-evals)
-uv run --extra dev python -m evals.eval_tools   # deterministic, no LLM
-uv run --extra dev python -m evals.eval_agent   # real Anthropic API calls
+# Evals (run from backend/)
+cd backend && uv run --extra dev python -m evals.eval_tools   # deterministic, no LLM
+cd backend && uv run --extra dev python -m evals.eval_agent   # real Anthropic API calls
 ```
 
 ## Project Structure
 
 ```
-src/ops_agent/
-  models/          # SQLAlchemy ORM (User, Order, Product, Message)
-  repositories/    # Data access layer (Protocol-based)
-  services/        # CSV → SQLite loader
-  agent/           # pydantic-ai agent, tools, system prompt, schemas
-  api/             # FastAPI routes (SSE streaming)
+backend/
+  src/ops_agent/
+    models/          # SQLAlchemy ORM (User, Order, Product, Message)
+    repositories/    # Data access layer (Protocol-based)
+    services/        # CSV → SQLite loader
+    agent/           # pydantic-ai agent, tools, system prompt, schemas
+    api/             # FastAPI routes (SSE streaming)
+  evals/             # Tool evals (deterministic) + agent evals (LLM)
+  tests/             # pytest unit + integration tests
+  data/              # CSV seed files
 
 frontend/src/
   components/chat/           # Chat UI (window, messages, input, copy)
   components/chat/agent-response/  # Structured data rendering (orders, sentiment)
   hooks/                     # SSE streaming hook
   types/                     # API type definitions
-
-evals/             # Tool evals (deterministic) + agent evals (LLM)
-tests/             # pytest unit + integration tests
-data/              # CSV seed files
 ```
 
 ---
